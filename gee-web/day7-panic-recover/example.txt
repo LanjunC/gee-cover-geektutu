@@ -1,0 +1,10 @@
+r.Static("/assets", "./static")
+将/assets的请求路径映射到./static下的静态文件
+
+具体做法
+r.Static("/assets", "./static")：
+1. 首先创建handler，此handler通过createStaticHandler创建：
+    1.http.FileServer(fs)创建了文件处理的Handler(该Handler实现了ServeHttp接口)
+    2.默认做法会将/assets/xxx.js映射到./static/assets/xxx.js这不是我们期望的
+    3.因此需要去掉/assets前缀(使用http.StripPrefix)
+2. 将该handler注册到/assets/*filepath路径
